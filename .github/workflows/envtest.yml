@@ -1,0 +1,65 @@
+name: Hi Mascot
+
+on: push
+
+# global env var
+env:
+  mascot: Mona
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  windows_job:
+    name: Windows Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: uses wf env
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
+      
+      - name: uses step env
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Octocat
+        env:
+          mascot: Octocat
+
+  linux_job:
+    name: Linux Job
+    needs: windows_job
+    runs-on: ubuntu-latest
+    env:
+      mascot: Tux
+    outputs:
+      mascot: ${{ steps.outstep.outputs.mascot }}
+    steps:
+      - name: uses job env
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
+
+      - name: set gritty env var
+        run: echo "mascot=Gritty" >> $GITHUB_ENV
+      
+      - name: uses changed job env
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
+
+      - name: uses step env
+        run: echo "Hi ${{ env.mascot }}"  # Hi Mika
+        env:
+          mascot: Mika
+
+      - name: uses job env again
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
+
+      - name: set output using job env
+        id: outstep
+        run: echo "mascot=${{ env.mascot }}" >> $GITHUB_OUTPUT  # Gritty
+
+  macos_job:
+    name: macOS Job
+    needs: linux_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: uses wf env
+        run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
+
+      - name: uses prior job output
+        run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty
