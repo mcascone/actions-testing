@@ -55,7 +55,7 @@ jobs:
 
   macos_job:
     name: macOS Job
-    needs: windows_job
+    needs: [windows_job, linux_job]
     runs-on: ubuntu-latest
     steps:
       - name: uses wf env - not changed by previous job
