@@ -66,10 +66,12 @@ jobs:
 
   post:
     name: Post
+    
     runs-on: ubuntu-latest
   
     # always runs, regardless of the outcome of any of the previous steps
     if: always()
+    needs: [windows_job, linux_job, macos_job]
   
     steps:
       - name: Post
