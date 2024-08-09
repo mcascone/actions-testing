@@ -51,7 +51,7 @@ jobs:
 
       - name: set output using job env
         id: outstep
-        run: echo "mascot=${{ env.mascot }}" >> $GITHUB_OUTPUT  # Gritty
+        run: echo "mascot=$mascot" >> $GITHUB_OUTPUT  # Gritty
 
   macos_job:
     name: macOS Job
