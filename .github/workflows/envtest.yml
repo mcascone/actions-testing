@@ -58,7 +58,7 @@ jobs:
     needs: linux_job
     runs-on: ubuntu-latest
     steps:
-      - name: uses wf env
+      - name: uses wf env - not changed by previous job
         run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
 
       - name: uses prior job output
