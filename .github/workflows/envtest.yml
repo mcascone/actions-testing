@@ -55,6 +55,7 @@ jobs:
 
   macos_job:
     name: macOS Job
+    environment: dev
     needs: [windows_job, linux_job]
     runs-on: ubuntu-latest
     steps:
