@@ -78,4 +78,4 @@ jobs:
         run: |
           echo 'Post Steps, such as notifications, etc.'
           echo "::notice::I'm a post step!"
-          echo ""::error::What do we need to do in Post?"
+          echo "::error::What do we need to do in Post?"
