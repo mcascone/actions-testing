@@ -51,11 +51,11 @@ jobs:
 
       - name: set output using job env
         id: outstep
-        run: echo "mascot=${{ env.mascot }}" >> $GITHUB_OUTPUT  # Gritty
+        run: echo "mascot=$mascot" >> $GITHUB_OUTPUT  # Gritty
 
   macos_job:
     name: macOS Job
-    needs: linux_job
+    needs: windows_job
     runs-on: ubuntu-latest
     steps:
       - name: uses wf env - not changed by previous job
@@ -63,3 +63,19 @@ jobs:
 
       - name: uses prior job output
         run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty
+
+  post:
+    name: Post
+    
+    runs-on: ubuntu-latest
+  
+    # always runs, regardless of the outcome of any of the previous steps
+    if: always()
+    needs: [linux_job, macos_job]
+  
+    steps:
+      - name: Post
+        run: |
+          echo 'Post Steps, such as notifications, etc.'
+          echo "::notice::I'm a post step!"
+          echo "::error::What do we need to do in Post?"
