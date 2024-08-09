@@ -63,3 +63,15 @@ jobs:
 
       - name: uses prior job output
         run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty
+
+  post:
+    name: Post
+    runs-on: ${{ inputs.runs-on }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+  
+    # always runs, regardless of the outcome of any of the previous steps
+    if: always()
+  
+    steps:
+      - name: Post
+        run: echo 'Post Steps, such as notifications, etc.'
