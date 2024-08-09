@@ -75,4 +75,4 @@ jobs:
       - name: Post
         run: |
           echo 'Post Steps, such as notifications, etc.'
-          echo ::notify::I'm a post step!
+          echo "::notify::I'm a post step!"
