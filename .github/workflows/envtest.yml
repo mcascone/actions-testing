@@ -5,6 +5,7 @@ on: push
 # global env var
 env:
   mascot: Mona
+  runs-on: ubuntu-latest
 
 defaults:
   run:
@@ -13,11 +14,11 @@ defaults:
 jobs:
   windows_job:
     name: Windows Job
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.runs-on }}
     steps:
       - name: uses wf env
         run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
-      
+
       - name: uses step env
         run: echo 'Hi ${{ env.mascot }}'  # Hi Octocat
         env:
@@ -25,8 +26,8 @@ jobs:
 
   linux_job:
     name: Linux Job
+    runs-on: ${{ env.runs-on }}
     needs: windows_job
-    runs-on: ubuntu-latest
     env:
       mascot: Tux
     outputs:
@@ -37,7 +38,7 @@ jobs:
 
       - name: set gritty env var
         run: echo "mascot=Gritty" >> $GITHUB_ENV
-      
+
       - name: uses changed job env
         run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
 
@@ -50,34 +51,16 @@ jobs:
         run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
 
       - name: set output using job env
-        id: outstep
+        id: outstep # <-- note the ID here, needed for the output definition
         run: echo "mascot=$mascot" >> $GITHUB_OUTPUT  # Gritty
 
   macos_job:
     name: macOS Job
-    environment: dev
-    timeout-minutes: 10
+    runs-on: ${{ env.runs-on }}
     needs: [windows_job, linux_job]
-    runs-on: ubuntu-latest
     steps:
-      - name: uses wf env - not changed by previous job
+      - name: global env var not changed by previous job
         run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
 
-      - name: uses prior job output
+      - name: Use prior job output to pass data around
         run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty
-
-  post:
-    name: Post
-    
-    runs-on: ubuntu-latest
-  
-    # always runs, regardless of the outcome of any of the previous steps
-    if: always()
-    needs: [linux_job, macos_job]
-  
-    steps:
-      - name: Post
-        run: |
-          echo 'Post Steps, such as notifications, etc.'
-          echo "::notice::I'm a post step!"
-          echo "::error::What do we need to do in Post?"
