@@ -43,17 +43,19 @@ jobs:
           echo 'test: ${{ steps.config.outputs.test }}'
           echo "env: $ARTIFACT_ID"
 
-  # linux_job:
-  #   name: Linux Job
-  #   runs-on: ubuntu-latest
-  #   needs: windows_job
-  #   env:
-  #     mascot: Tux
-  #   outputs:
-  #     mascot: ${{ steps.outstep.outputs.mascot }}
-  #   steps:
-  #     - name: uses job env
-  #       run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
+  linux_job:
+    name: Linux Job
+    runs-on: ubuntu-latest
+    needs: windows_job
+    env:
+      mascot: Tux
+    # outputs:
+    #   mascot: ${{ steps.outstep.outputs.mascot }}
+    steps:
+      - name: try reading env from previous job
+        run: |
+          echo "scope id: $ARTIFACT_ID"
+          echo 'context id: ${{ env.ARTIFACT_ID }}'
 
   #     - name: set gritty env var
   #       run: echo "mascot=Gritty" >> $GITHUB_ENV
