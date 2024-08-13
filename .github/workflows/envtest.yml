@@ -59,7 +59,7 @@ jobs:
     steps:
       - name: try reading env from previous job
         run: |
-          echo "notice::scope id: $ARTIFACT_ID"
+          echo "::notice::scope id: $ARTIFACT_ID"
           echo '::notice::context id: ${{ env.ARTIFACT_ID }}'
           echo '::notice::output id: ${{ needs.windows_job.outputs.artifactId}}'
 
