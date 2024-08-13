@@ -16,6 +16,8 @@ jobs:
   windows_job:
     name: Windows Job
     runs-on: ubuntu-latest
+    outputs:
+      artifactId: ${{ steps.config.outputs.artifactId }}
     steps:
       - name: uses wf env
         run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
@@ -42,6 +44,9 @@ jobs:
           echo 'art: ${{ steps.config.outputs.artifactId }}'
           echo 'test: ${{ steps.config.outputs.test }}'
           echo "env: $ARTIFACT_ID"
+      
+      - name: set outputs
+        run: echo "ARTIFACT_ID=${{ steps.config.outputs.artifactId }} >> $GITHUB_OUTPUT"
 
   linux_job:
     name: Linux Job
@@ -56,6 +61,7 @@ jobs:
         run: |
           echo "scope id: $ARTIFACT_ID"
           echo 'context id: ${{ env.ARTIFACT_ID }}'
+          echo 'output id: ${{ needs.windows_job.outputs.artifactId}}'
 
   #     - name: set gritty env var
   #       run: echo "mascot=Gritty" >> $GITHUB_ENV
