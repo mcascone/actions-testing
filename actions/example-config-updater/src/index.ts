@@ -34,6 +34,7 @@ export async function run() {
     core.exportVariable("ARTIFACT_ID", id);
 
     core.info('this is coming from core.info');
+    core.notice('this is coming from core.notice');
 
   } catch (error) {
     core.setFailed(error.message);
