@@ -1,35 +1,39 @@
 import * as core from "@actions/core";
 import { DefaultArtifactClient } from "@actions/artifact";
 
-async function run() {
+export async function run() {
   try {
-
     // create a sample config.json file
+    const configFileName = "config.json";
+    const artifactName = "config";
+    const rootDir = './';
+
     const fs = require("fs");
+
     const config = {
       max: "cascone",
     };
 
-    fs.writeFileSync("config.json", JSON.stringify(config, null, 2));
+    fs.writeFileSync(configFileName, JSON.stringify(config, null, 2));
 
-    // upload file 'config.json' as an artifact
+    // upload file 'config.json' as an artifact named 'config'
     const artifactClient = new DefaultArtifactClient();
-    const artifactName = "config";
-    const files = ["config.json"];
+    const files = [configFileName];
+    const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
 
-    const {id, size} = await artifactClient.uploadArtifact(artifactName, files, './')
+    console.log(`Created artifact with id: ${id} (bytes: ${size})`);
 
-    console.log(`Created artifact with id: ${id} (bytes: ${size})`)
+    console.log('config: ', config);
 
-    console.log('config: ', config)
+    core.setOutput("artifactId", id);
 
-    core.setOutput("artifactId", id)
+    core.setOutput("config", JSON.stringify(config));
 
-    core.setOutput("config", JSON.stringify(config))
+    core.setOutput("test", "this is a test");
 
-    core.setOutput("test", "this is a test")
+    core.exportVariable("ARTIFACT_ID", id);
 
-    core.exportVariable("ARTIFACT_ID", id)
+    core.info('this is coming from core.info');
 
   } catch (error) {
     core.setFailed(error.message);

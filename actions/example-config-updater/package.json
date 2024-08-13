@@ -4,7 +4,6 @@
   "description": "example-config-updater",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
- 
   "author": "Moody's, Inc.",
   "scripts": {
     "build": "tsc && ncc build lib/index.js",
@@ -12,7 +11,7 @@
     "act": " npm run build -&& act -P linux=node:20.12",
     "tsc": "npm run build -f && tsc -p tsconfig.json",
     "postbuild": "copyfiles -u 1 ../resources/**/*.yaml ../resources/**/*.txt ../resources/**/*.sh ../resources/**/cacerts dist"
-  }, 
+  },
   "keywords": [],
   "directories": {
     "lib": "lib",

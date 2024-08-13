@@ -8,7 +8,7 @@
     "paths": {
       "@emtn/example-config-updater": [
         "actions/config/example-config-updater"
-      ],
+      ]
     },
     "useUnknownInCatchVariables": false
   },
