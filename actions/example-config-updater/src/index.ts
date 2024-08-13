@@ -16,23 +16,25 @@ async function run() {
     const artifactClient = new DefaultArtifactClient();
     const artifactName = "config";
     const files = ["config.json"];
-    const rootDirectory = ".";
 
-    const uploadResponse = await artifactClient.uploadArtifact(
-      artifactName,
-      files,
-      rootDirectory,
-    );
+    const {id, size} = await artifactClient.uploadArtifact(artifactName, files, './')
 
-    console.log(
-      `Created artifact with id: ${uploadResponse.id} (bytes: ${uploadResponse.size}`,
-    );
+    console.log(`Created artifact with id: ${id} (bytes: ${size})`)
 
     console.log('config: ', config)
 
-    core.setOutput("artifactId", uploadResponse.id);
+    core.setOutput("artifactId", id)
+
+    core.setOutput("config", JSON.stringify(config))
+
+    core.setOutput("test", "this is a test")
+
+    core.exportVariable("ARTIFACT_ID", id)
 
   } catch (error) {
     core.setFailed(error.message);
   }
 }
+
+
+run()

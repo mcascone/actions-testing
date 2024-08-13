@@ -40,6 +40,8 @@ jobs:
         run: |
           echo 'config: ${{ steps.config.outputs.config }}'
           echo 'art: ${{ steps.config.outputs.artifactId }}'
+          echo 'test: ${{ steps.config.outputs.test }}'
+          echo "env: $ARTIFACT_ID"
 
   # linux_job:
   #   name: Linux Job
