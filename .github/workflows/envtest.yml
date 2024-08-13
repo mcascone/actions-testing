@@ -25,54 +25,59 @@ jobs:
         env:
           mascot: Octocat
 
-      - name: generate config block
+      # - name: generate config block
+      #   id: config
+      #   run: |
+      #     echo '{"mascot": "Octocat"}' > config.json
+
+      - name: checkout local repo for actions
+        uses: actions/checkout@v4
+      - name: create and upload config object
         id: config
+        uses: ./actions/example-config-updater
+
+      - name: read the outputs
         run: |
-          echo '{"mascot": "Octocat"}' > config.json
+          echo 'config: ${{ steps.config.outputs.config }}'
+          echo 'art: ${{ steps.config.outputs.artifactId }}'
 
-      - name: Upload config.json as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: config
-          path: config.json
+  # linux_job:
+  #   name: Linux Job
+  #   runs-on: ubuntu-latest
+  #   needs: windows_job
+  #   env:
+  #     mascot: Tux
+  #   outputs:
+  #     mascot: ${{ steps.outstep.outputs.mascot }}
+  #   steps:
+  #     - name: uses job env
+  #       run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
 
-  linux_job:
-    name: Linux Job
-    runs-on: ubuntu-latest
-    needs: windows_job
-    env:
-      mascot: Tux
-    outputs:
-      mascot: ${{ steps.outstep.outputs.mascot }}
-    steps:
-      - name: uses job env
-        run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
+  #     - name: set gritty env var
+  #       run: echo "mascot=Gritty" >> $GITHUB_ENV
 
-      - name: set gritty env var
-        run: echo "mascot=Gritty" >> $GITHUB_ENV
+  #     - name: uses changed job env
+  #       run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
 
-      - name: uses changed job env
-        run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
+  #     - name: uses step env
+  #       run: echo "Hi ${{ env.mascot }}"  # Hi Mika
+  #       env:
+  #         mascot: Mika
 
-      - name: uses step env
-        run: echo "Hi ${{ env.mascot }}"  # Hi Mika
-        env:
-          mascot: Mika
+  #     - name: uses job env again
+  #       run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
 
-      - name: uses job env again
-        run: echo 'Hi ${{ env.mascot }}'  # Hi Gritty
+  #     - name: set output using job env
+  #       id: outstep # <-- note the ID here, needed for the output definition
+  #       run: echo "mascot=$mascot" >> $GITHUB_OUTPUT  # Gritty
 
-      - name: set output using job env
-        id: outstep # <-- note the ID here, needed for the output definition
-        run: echo "mascot=$mascot" >> $GITHUB_OUTPUT  # Gritty
+  # macos_job:
+  #   name: macOS Job
+  #   runs-on: ubuntu-latest
+  #   needs: [windows_job, linux_job]
+  #   steps:
+  #     - name: global env var not changed by previous job
+  #       run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
 
-  macos_job:
-    name: macOS Job
-    runs-on: ubuntu-latest
-    needs: [windows_job, linux_job]
-    steps:
-      - name: global env var not changed by previous job
-        run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
-
-      - name: Use prior job output to pass data around
-        run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty
+  #     - name: Use prior job output to pass data around
+  #       run: echo 'Hi ${{ needs.linux_job.outputs.mascot }}'  # Hi Gritty

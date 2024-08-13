@@ -1,0 +1,14 @@
+name: example-config-updater
+
+description: an example of using upload/download to pass the config object around
+
+outputs:
+  config:
+    description: the updated config object.
+
+  artifactId:
+    description: the updated config object as an artifact.
+
+runs:
+  using: node20
+  main: dist/index.js
