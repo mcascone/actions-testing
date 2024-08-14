@@ -2,10 +2,6 @@ name: Config ReaderWriter
 
 on: push
 
-# global env var
-env:
-  mascot: Mona
-
 defaults:
   run:
     shell: bash
@@ -23,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: create config
-        uses: ./example-config-updater
+        uses: ./actions/example-config-updater
         with:
           mode: create
         continue-on-error: true
@@ -41,7 +37,7 @@ jobs:
         run: echo 'starting ${{ github.job }}'
 
       - name: read config
-        uses: ./example-config-updater
+        uses: ./actions/example-config-updater
         with:
           mode: read
         continue-on-error: true
