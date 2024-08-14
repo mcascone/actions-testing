@@ -17,4 +17,43 @@ jobs:
 
     steps:
       - name: init
-        run: echo "init"
+        run: echo 'starting init'
+
+      - name: create config
+        uses: ./actions/example-config-updater
+        with:
+          mode: create
+        continue-on-error: true
+
+      - name: done
+        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+
+  read:
+    name: Read
+    runs-on: ubuntu-latest
+    needs: [init]
+
+    steps:
+      - name: read
+        run: echo 'starting read'
+
+      - name: read config
+        uses: ./actions/example-config-updater
+        with:
+          mode: read
+        continue-on-error: true
+      
+      - name: done
+        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+
+  post:
+    name: Post
+    runs-on: ubuntu-latest
+    needs: [read]
+
+    steps:
+      - name: post
+        run: echo 'starting post'
+
+      - name: done
+        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
