@@ -19,6 +19,9 @@ jobs:
       - name: init
         run: echo 'starting init'
 
+      - name: checkout
+        uses: actions/checkout@v4
+
       - name: create config
         uses: ./example-config-updater
         with:
