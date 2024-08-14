@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: init
-        run: echo 'starting init'
+        run: echo 'starting ${{ github.job }}'
 
       - name: checkout
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
         continue-on-error: true
 
       - name: done
-        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo "::notice::${{ github.job }} done"
 
   read:
     name: Read
@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: read
-        run: echo 'starting read'
+        run: echo 'starting ${{ github.job }}'
 
       - name: read config
         uses: ./example-config-updater
@@ -47,7 +47,7 @@ jobs:
         continue-on-error: true
       
       - name: done
-        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo "::notice::${{ github.job }} done"
 
   post:
     name: Post
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: post
-        run: echo 'starting post'
+        run: echo 'starting ${{ github.job }}'
 
       - name: done
-        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo "::notice::${{ github.job }} done"
