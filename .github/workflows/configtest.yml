@@ -20,13 +20,13 @@ jobs:
         run: echo 'starting init'
 
       - name: create config
-        uses: ./actions/example-config-updater
+        uses: ./example-config-updater
         with:
           mode: create
         continue-on-error: true
 
       - name: done
-        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
 
   read:
     name: Read
@@ -38,13 +38,13 @@ jobs:
         run: echo 'starting read'
 
       - name: read config
-        uses: ./actions/example-config-updater
+        uses: ./example-config-updater
         with:
           mode: read
         continue-on-error: true
       
       - name: done
-        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
 
   post:
     name: Post
@@ -56,4 +56,4 @@ jobs:
         run: echo 'starting post'
 
       - name: done
-        run: echo '${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
+        run: echo '::notice::${{ github.job }} done' >> $GITHUB_STEP_SUMMARY
