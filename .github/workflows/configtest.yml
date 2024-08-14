@@ -52,7 +52,6 @@ jobs:
         uses: ./actions/example-config-updater
         with:
           mode: read
-        continue-on-error: true
       
       - name: done
         run: echo "::notice::${{ github.job }} done"

@@ -2,6 +2,20 @@ name: example-config-updater
 
 description: an example of using upload/download to pass the config object around
 
+inputs:
+  mode:
+    description: the mode to run in
+    required: true
+    default: 'read'
+
+  config:
+    description: the config object to update
+    required: false
+    default: '{}'
+
+  test:
+    description: test input
+
 outputs:
   config:
     description: the updated config object.

@@ -1,40 +1,41 @@
 import * as core from "@actions/core";
+import * as fs from "fs";
 import { DefaultArtifactClient } from "@actions/artifact";
+
+enum Mode {
+  CREATE = "create",
+  READ = "read",
+};
 
 export async function run() {
   try {
-    // create a sample config.json file
-    const configFileName = "config.json";
-    const artifactName = "config";
-    const rootDir = './';
-
-    const fs = require("fs");
-
-    const config = {
-      max: "cascone",
-    };
-
-    fs.writeFileSync(configFileName, JSON.stringify(config, null, 2));
-
-    // upload file 'config.json' as an artifact named 'config'
+    const mode = core.getInput("mode");
     const artifactClient = new DefaultArtifactClient();
-    const files = [configFileName];
-    const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
+    
+    // create a config.json file
+    if (mode == Mode.CREATE) {
+      console.log("Creating config.json file");
 
-    console.log(`Created artifact with id: ${id} (bytes: ${size})`);
+      const configFileName = "config.json";
+      const artifactName = "config";
+      const rootDir = './';
+      
+      const content = {
+        max: "cascone",
+      };
+      
+      // write the file
+      fs.writeFileSync(configFileName, JSON.stringify(content, null, 2));
 
-    console.log('config: ', config);
+      // upload file 'config.json' as an artifact named 'config'
+      const files = [configFileName];
+      const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
 
-    core.setOutput("artifactId", id);
-
-    core.setOutput("config", JSON.stringify(config));
-
-    core.setOutput("test", "this is a test");
-
-    core.exportVariable("ARTIFACT_ID", id);
-
-    core.info('this is coming from core.info');
-    core.notice('this is coming from core.notice');
+      console.log(`Created artifact with id: ${id} (bytes: ${size})`);
+    }
+    else if (mode == Mode.READ) {
+      console.log("reading config.json file");
+    }
 
   } catch (error) {
     core.setFailed(error.message);
