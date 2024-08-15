@@ -83,10 +83,11 @@ jobs:
       - name: get the config outputs
         run: | 
           configPath = ${{ needs.read.outputs.configPath }}
-          echo 'configPath: ' $configPath
+          configFile=$configPath/config.json
+          echo 'configFile: ' $configFile
 
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat $configPath >> $GITHUB_STEP_SUMMARY
+          cat $configFile >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
