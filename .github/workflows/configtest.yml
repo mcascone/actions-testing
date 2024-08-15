@@ -11,6 +11,9 @@ jobs:
     name: Init
     runs-on: ubuntu-latest
 
+    outputs:
+      artifactId: ${{ steps.create.outputs.artifactId }}
+
     steps:
       - name: init
         run: echo 'starting ${{ github.job }}'
@@ -25,23 +28,17 @@ jobs:
           path: actions
 
       - name: create config
+        id: create
         uses: ./actions/example-config-updater
         with:
           mode: create
-        continue-on-error: true
-
-      - name: done
-        run: echo "::notice::${{ github.job }} done"
 
   read:
     name: Read
     runs-on: ubuntu-latest
     needs: [init]
 
-    steps:
-      - name: read
-        run: echo 'starting ${{ github.job }}'
-      
+    steps:      
       - name: unstash action dir
         uses: actions/download-artifact@v4
         with:
@@ -52,18 +49,13 @@ jobs:
         uses: ./actions/example-config-updater
         with:
           mode: read
-      
-      - name: done
-        run: echo "::notice::${{ github.job }} done"
+          artifactId: ${{ needs.init.outputs.artifactId }}
 
-  post:
-    name: Post
+  update:
+    name: Update
     runs-on: ubuntu-latest
     needs: [read]
 
     steps:
       - name: post
         run: echo 'starting ${{ github.job }}'
-
-      - name: done
-        run: echo "::notice::${{ github.job }} done"

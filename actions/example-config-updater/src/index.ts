@@ -35,12 +35,14 @@ export async function run() {
       const files = [configFileName];
       const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
       artID = id ?? 0;
+      core.setOutput("artifactId", artID);
 
       console.log(`Created artifact with id: ${artID} (bytes: ${size})`);
     }
     // READ the artifact into a file and create an object
     else if (mode == Mode.READ) {
-      console.log("reading config.json file");
+      const id = core.getInput("artifactId");
+      console.log("reading config.json file, id: ", id);
 
       // download the artifact
       // parse the file into an object

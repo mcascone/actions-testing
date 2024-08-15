@@ -4,17 +4,13 @@ description: an example of using upload/download to pass the config object aroun
 
 inputs:
   mode:
-    description: the mode to run in
+    description: 'the mode to run in: create, read, or write'
     required: true
-    default: 'read'
+    default: read
 
-  config:
-    description: the config object to update
+  artifactId:
+    description: the artifact id to read the config object from.
     required: false
-    default: '{}'
-
-  test:
-    description: test input
 
 outputs:
   config:
@@ -22,9 +18,6 @@ outputs:
 
   artifactId:
     description: the updated config object as an artifact.
-
-  test:
-    description: test output
 
 runs:
   using: node20
