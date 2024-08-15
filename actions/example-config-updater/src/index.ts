@@ -46,7 +46,7 @@ export async function run() {
 
       // download the artifact
       // parse the file into an object
-      const downloadResponse = await artifactClient.downloadArtifact(artID);
+      const downloadResponse = await artifactClient.downloadArtifact(Number(id));
 
       console.log('downloadResponse: ', downloadResponse);
       const file = downloadResponse.downloadPath;
