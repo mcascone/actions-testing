@@ -80,6 +80,12 @@ jobs:
           name: actions
           path: actions
 
+      - name: download config
+        id: download
+        uses: actions/download-artifact@v4
+        with:
+          name: config
+
       - name: get the config outputs
         run: | 
           configPath=${{ needs.read.outputs.configPath }}
