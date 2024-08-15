@@ -39,7 +39,7 @@ jobs:
     needs: [init]
 
     outputs:
-      config: ${{ steps.read.outputs.config }}
+      configPath: ${{ steps.download.outputs.download-path }}
 
     steps:      
       - name: unstash action dir
@@ -55,16 +55,17 @@ jobs:
       #     artifactId: ${{ needs.init.outputs.artifactId }}
 
       - name: download config
+        id: download
         uses: actions/download-artifact@v4
         with:
           name: config
 
-      - name: read
+      - name: print config to summary
         run: |
           echo 'config:'  >> $GITHUB_STEP_SUMMARY
           echo '```'      >> $GITHUB_STEP_SUMMARY
           cat config.json >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo ""         >> $GITHUB_STEP_SUMMARY
           echo '```'      >> $GITHUB_STEP_SUMMARY
 
   update:
@@ -81,7 +82,13 @@ jobs:
 
       - name: get the config outputs
         run: | 
-          echo "config: '${{ needs.read.outputs.config }}'" >> $GITHUB_STEP_SUMMARY
+          configPath = ${{ needs.read.outputs.configPath }}
+          echo 'configPath: ' $configPath
+
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat $configPath >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
 
 # See here for deleting artifacts: https://github.com/actions/upload-artifact/issues/550
