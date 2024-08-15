@@ -86,6 +86,8 @@ jobs:
           configFile=$configPath/config.json
           echo 'configFile: ' $configFile
 
+          ls -R >> $GITHUB_STEP_SUMMARY
+
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat $configFile >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
