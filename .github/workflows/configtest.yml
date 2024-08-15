@@ -62,11 +62,10 @@ jobs:
       - name: read
         run: |
           echo 'config:'  >> $GITHUB_STEP_SUMMARY
-          echo "'''"      >> $GITHUB_STEP_SUMMARY
-          
+          echo '```'      >> $GITHUB_STEP_SUMMARY
           cat config.json >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "'''"      >> $GITHUB_STEP_SUMMARY
+          echo '```'      >> $GITHUB_STEP_SUMMARY
 
   update:
     name: Update
