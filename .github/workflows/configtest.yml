@@ -82,7 +82,7 @@ jobs:
 
       - name: get the config outputs
         run: | 
-          configPath = ${{ needs.read.outputs.configPath }}
+          configPath=${{ needs.read.outputs.configPath }}
           configFile=$configPath/config.json
           echo 'configFile: ' $configFile
 
