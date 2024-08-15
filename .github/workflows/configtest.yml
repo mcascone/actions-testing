@@ -38,6 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [init]
 
+    outputs:
+      config: ${{ steps.read.outputs.config }}
+
     steps:      
       - name: unstash action dir
         uses: actions/download-artifact@v4
@@ -57,7 +60,7 @@ jobs:
           name: config
 
       - name: read
-        run: cat config.json
+        run: echo 'config=$(cat config.json)' >> $GITHUB_OUTPUT
 
   update:
     name: Update
@@ -65,5 +68,12 @@ jobs:
     needs: [read]
 
     steps:
-      - name: post
-        run: echo 'starting ${{ github.job }}'
+      - name: unstash action dir
+        uses: actions/download-artifact@v4
+        with:
+          name: actions
+          path: actions
+
+      - name: get the config outputs
+        run: | 
+          echo 'config: ${{ needs.read.outputs.config }}'
