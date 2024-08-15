@@ -62,7 +62,9 @@ jobs:
       - name: read
         run: |
           echo 'config:'  >> $GITHUB_STEP_SUMMARY
+          echo "'''"      >> $GITHUB_STEP_SUMMARY
           cat config.json >> $GITHUB_STEP_SUMMARY
+          echo "'''"      >> $GITHUB_STEP_SUMMARY
 
   update:
     name: Update
@@ -79,3 +81,6 @@ jobs:
       - name: get the config outputs
         run: | 
           echo "config: '${{ needs.read.outputs.config }}'" >> $GITHUB_STEP_SUMMARY
+
+
+# See here for deleting artifacts: https://github.com/actions/upload-artifact/issues/550
