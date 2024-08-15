@@ -61,8 +61,8 @@ jobs:
 
       - name: read
         run: |
-          echo 'config=$(cat config.json)'
-          echo 'config=$(cat config.json)' >> $GITHUB_OUTPUT
+          echo "config=$(cat config.json)" >> $GITHUB_STEP_SUMMARY
+          echo "config=$(cat config.json)" >> $GITHUB_OUTPUT
 
   update:
     name: Update
@@ -78,4 +78,4 @@ jobs:
 
       - name: get the config outputs
         run: | 
-          echo 'config: ${{ needs.read.outputs.config }}'
+          echo "config: ${{ needs.read.outputs.config }}" >> $GITHUB_STEP_SUMMARY
