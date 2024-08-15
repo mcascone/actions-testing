@@ -1,4 +1,4 @@
-name: Config ReaderWriter
+name: ConfigHelper
 
 on: push
 
@@ -45,11 +45,19 @@ jobs:
           name: actions
           path: actions
 
-      - name: read config
-        uses: ./actions/example-config-updater
+      # - name: read config
+      #   uses: ./actions/example-config-updater
+      #   with:
+      #     mode: read
+      #     artifactId: ${{ needs.init.outputs.artifactId }}
+
+      - name: download config
+        uses: actions/download-artifact@v4
         with:
-          mode: read
-          artifactId: ${{ needs.init.outputs.artifactId }}
+          name: config
+
+      - name: read
+        run: cat config.json
 
   update:
     name: Update
