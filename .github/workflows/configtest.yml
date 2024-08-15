@@ -60,7 +60,9 @@ jobs:
           name: config
 
       - name: read
-        run: echo 'config=$(cat config.json)' >> $GITHUB_OUTPUT
+        run: |
+          echo 'config=$(cat config.json)'
+          echo 'config=$(cat config.json)' >> $GITHUB_OUTPUT
 
   update:
     name: Update
