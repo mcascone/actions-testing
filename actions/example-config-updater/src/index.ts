@@ -42,6 +42,7 @@ export async function run() {
     // READ the artifact into a file and create an object
     else if (mode == Mode.READ) {
       const id = core.getInput("artifactId");
+      
       console.log("reading config.json file, id: ", id);
 
       // download the artifact
