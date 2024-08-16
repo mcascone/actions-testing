@@ -106,6 +106,7 @@ export async function run() {
 
         // core lib doesn't provide an overwrite option, so delete the existing artifact
         // and upload the new one
+        // there's a problem here though, the artifact id will change
         await artifactClient.deleteArtifact(artifactName);
 
         // upload file 'config.json' as an artifact named 'config'

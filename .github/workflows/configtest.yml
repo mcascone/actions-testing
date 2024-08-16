@@ -28,7 +28,7 @@ jobs:
           name: actions
           path: actions
 
-      # creates implied output: artifactId
+      # creates implied output and ENV var: artifactId
       - name: create the example config object
         id: create
         uses: ./actions/example-config-updater
