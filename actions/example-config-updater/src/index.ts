@@ -104,6 +104,10 @@ export async function run() {
         // write the file to the filesystem
         fs.writeFileSync(configFileName, JSON.stringify(updatedContent, null, 2));
 
+        // core lib doesn't provide an overwrite option, so delete the existing artifact
+        // and upload the new one
+        await artifactClient.deleteArtifact(artifactName);
+
         // upload file 'config.json' as an artifact named 'config'
         const files = [configFileName];
         const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
