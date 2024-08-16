@@ -18,20 +18,30 @@ jobs:
       - name: init
         run: echo 'starting ${{ github.job }}'
 
-      - name: checkout
+      - name: checkout app repo
         uses: actions/checkout@v4
 
+      # should only be needed in this POC
       - name: stash action dir
         uses: actions/upload-artifact@v4
         with:
           name: actions
           path: actions
 
-      - name: create config
+      # creates implied output: artifactId
+      - name: create the example config object
         id: create
         uses: ./actions/example-config-updater
         with:
           mode: create
+
+      - name: test using env var
+        run: |
+          echo "config from env: $CONFIG" >> $GITHUB_STEP_SUMMARY
+
+      - name: test using step outputs
+        run: |
+          echo "config from step: ${{ steps.create.outputs.config }}" >> $GITHUB_STEP_SUMMARY
 
   read:
     name: Read
@@ -48,17 +58,17 @@ jobs:
           name: actions
           path: actions
 
-      # - name: read config
-      #   uses: ./actions/example-config-updater
-      #   with:
-      #     mode: read
-      #     artifactId: ${{ needs.init.outputs.artifactId }}
-
-      - name: download config
-        id: download
-        uses: actions/download-artifact@v4
+      - name: read config
+        uses: ./actions/example-config-updater
         with:
-          name: config
+          mode: read
+          artifactId: ${{ needs.init.outputs.artifactId }}
+
+      # - name: download config
+      #   id: download
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: config
 
       - name: print config to summary
         run: |
@@ -77,7 +87,7 @@ jobs:
       - name: unstash action dir
         uses: actions/download-artifact@v4
         with:
-          name: actions
+          name: actions 
           path: actions
 
       - name: download config

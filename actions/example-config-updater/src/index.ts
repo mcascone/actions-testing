@@ -10,25 +10,34 @@ enum Mode {
 
 export async function run() {
   try {
-    const mode           = core.getInput("mode");
+    const mode   = core.getInput("mode");
+    const config = core.getInput("config");
 
     const artifactClient = new DefaultArtifactClient();
     const configFileName = "config.json";
     const artifactName   = "config";
     const rootDir        = './';
-    let artID: number = 0;
+    let artID: number;
     
+    ///////// CREATE ///////////////
     // create a config.json file
     if (mode == Mode.CREATE) {
       console.log("Creating config.json file");
+      let content  = {};
 
-      const content = {
-        max: "cascone",
-      };
-
+      // if the config input is not null or not empty, use it
+      // otherwise, use a default value
+      if (config && config.length > 0) {
+        const content = JSON.parse(config);
+      }
+      else {
+        const content = {
+          max: "cascone",
+        };
+      }
       console.log('content: ', content);
-      
-      // write the file
+
+      // write the file to the filesystem
       fs.writeFileSync(configFileName, JSON.stringify(content, null, 2));
 
       // upload file 'config.json' as an artifact named 'config'
@@ -36,14 +45,21 @@ export async function run() {
       const { id, size } = await artifactClient.uploadArtifact(artifactName, files, rootDir);
       artID = id ?? 0;
       core.setOutput("artifactId", artID);
-
       console.log(`Created artifact with id: ${artID} (bytes: ${size})`);
+
+      // set the json string as an env var
+      core.exportVariable('CONFIG', JSON.stringify(content));
+
+      // set the json string as an output
+      core.setOutput('config', JSON.stringify(content));
     }
+
+    ///////////// READ ///////////////////
     // READ the artifact into a file and create an object
     else if (mode == Mode.READ) {
       const id = core.getInput("artifactId");
-      
-      console.log("reading config.json file, id: ", id);
+
+      console.debug("reading config.json file, id: ", id);
 
       // download the artifact
       // parse the file into an object
@@ -69,6 +85,8 @@ export async function run() {
 
 
     }
+
+    ///////////// WRITE ///////////////////
     else if (mode == Mode.WRITE) {
       console.log("writing config.json file");
     }

@@ -1,6 +1,6 @@
 name: example-config-updater
 
-description: an example of using upload/download to pass the config object around
+description: An example of using upload/download to pass the config object around. 
 
 inputs:
   mode:
@@ -9,12 +9,16 @@ inputs:
     default: read
 
   artifactId:
-    description: the artifact id to read the config object from.
+    description: The artifact id to read the config object from.
+    required: false
+
+  config:
+    description: The config object to update, in JSON string format.
     required: false
 
 outputs:
   config:
-    description: the updated config object.
+    description: the updated config object, in JSON string format.
 
   artifactId:
     description: the updated config object as an artifact.
