@@ -14,8 +14,8 @@ export async function run() {
     const config = core.getInput("config");
 
     const artifactClient = new DefaultArtifactClient();
-    const configFileName = "config.json";
     const artifactName   = "config";
+    const configFileName = artifactName + ".json";
     const rootDir        = './';
     let artID: number;
     
@@ -32,7 +32,7 @@ export async function run() {
       }
       else {
         content = {
-          max: "cascone",
+          "keanu": "reeves",
         };
       }
       console.log('content: ', content);
@@ -47,11 +47,14 @@ export async function run() {
       core.setOutput("artifactId", artID);
       console.log(`Created artifact with id: ${artID} (bytes: ${size})`);
 
-      // set the json string as an env var
-      core.exportVariable('CONFIG', JSON.stringify(content));
+      // set artifact id as an output
+      core.setOutput("artifactId", artID);
 
       // set the json string as an output
       core.setOutput('config', JSON.stringify(content));
+
+      // set the json string as an env var
+      core.exportVariable('CONFIG', JSON.stringify(content));      
     }
 
     ///////////// READ ///////////////////
@@ -66,7 +69,7 @@ export async function run() {
       const downloadResponse = await artifactClient.downloadArtifact(Number(id));
 
       console.log('downloadResponse: ', downloadResponse);
-      const file = downloadResponse.downloadPath;
+      const file = downloadResponse.downloadPath + '/' + configFileName;
       console.log('file: ', file);
 
       let data: string;
