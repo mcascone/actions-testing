@@ -34,6 +34,7 @@ jobs:
         uses: ./actions/example-config-updater
         with:
           mode: create
+          config: '{"config": "from init"}'
 
       - name: test using env var
         run: |
