@@ -81,7 +81,7 @@ export async function run() {
       
       // parse the file into an object
       const content    = JSON.parse(data);
-      const contentStr = JSON.stringify(config, null, 2);
+      const contentStr = JSON.stringify(content, null, 2);
       console.log('config from file: ', contentStr);
 
       // set the json string as an output
