@@ -28,10 +28,10 @@ export async function run() {
       // if the config input is not null or not empty, use it
       // otherwise, use a default value
       if (config && config.length > 0) {
-        const content = JSON.parse(config);
+        content = JSON.parse(config);
       }
       else {
-        const content = {
+        content = {
           max: "cascone",
         };
       }
