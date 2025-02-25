@@ -1,0 +1,17 @@
+name: Actions Runner Controller Demo
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: step1
+        run: echo "Hello World"
+      
+      - id: step2
+        run: echo "Hello World 2"
+
+      - id: step3
+        uses: ./actions/set-step-output

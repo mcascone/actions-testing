@@ -1,0 +1,16 @@
+name: clean-workspace
+
+description: An action to wipe out the workspace before running the workflow.
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        ls -la ./
+        echo -n 'Cleaning workspace... '
+        rm -rf ./* || true
+        rm -rf ./.??* || true
+        echo 'Done'
+        ls -la ./
+      

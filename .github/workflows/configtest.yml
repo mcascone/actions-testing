@@ -1,6 +1,9 @@
 name: ConfigHelper
 
-on: push
+on:
+  push:
+    branches:
+      - never
 
 defaults:
   run:

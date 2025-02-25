@@ -1,6 +1,9 @@
 # name: Hi Mascot
 
-on: push
+on: 
+  push:
+    branches:
+      - never
 
 # global env var
 env:
