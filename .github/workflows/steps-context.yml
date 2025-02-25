@@ -1,4 +1,4 @@
-name: Actions Runner Controller Demo
+name: steps context test
 on:
   workflow_dispatch:
 
@@ -6,12 +6,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    outputs:
+      step_data: ${{ steps.set-step-output.outputs.step_data }}
+
+      step1: ${{ steps.step1.outputs.result }}
+      step2: ${{ steps.step2.outputs.result }}
+
     steps:
+      - id: checkout
+        uses: actions/checkout@v4
+
       - id: step1
-        run: echo "Hello World"
+        run: echo "out=Hello World" >> $GITHUB_OUTPUT
       
       - id: step2
-        run: echo "Hello World 2"
+        run: echo "out=Hello World 2" >> $GITHUB_OUTPUT
 
       - id: step3
         uses: ./actions/set-step-output
+        with:
+          steps: ${{ toJSON(steps) }}
