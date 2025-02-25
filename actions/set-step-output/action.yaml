@@ -12,7 +12,6 @@ outputs:
     description: The steps context data
     value: ${{ steps.set-step-output.outputs.step_data }}
 
-
 runs:
   using: composite
   steps:
