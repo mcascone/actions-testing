@@ -1,0 +1,27 @@
+name: test workflow
+on:
+  push:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  jobA:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: 
+        scenario: 
+          - name: case2
+            param1: 1
+            index: 0
+          - name: case1
+            param1: 1
+            index: 1
+        include:
+          - workflow: [ 1, 2 ]
+
+    steps:
+      - run: |
+          echo "${{ toJSON(matrix) }}"
