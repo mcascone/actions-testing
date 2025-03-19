@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      step_data: ${{ steps.set-step-output.outputs.step_data }}
+      step_data: ${{ steps.step3.outputs.step_data }}
 
-      step1: ${{ steps.step1.outputs.result }}
-      step2: ${{ steps.step2.outputs.result }}
+      step1: ${{ steps.step1.outputs.out }}
+      step2: ${{ steps.step2.outputs.out }}
 
     steps:
       - id: checkout
@@ -26,3 +26,11 @@ jobs:
         uses: ./actions/set-step-output
         with:
           steps: ${{ toJSON(steps) }}
+  
+  verify:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - run: echo "${{ needs.test.outputs.step_data }}"
+      - run: echo "${{ needs.test.outputs.step1 }}"
+      - run: echo "${{ needs.test.outputs.step2 }}"

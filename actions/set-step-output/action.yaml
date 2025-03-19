@@ -5,7 +5,7 @@ description: An action to pass the steps context data to the next job
 inputs:
   steps:
     description: The stringified steps context data
-    default: ''
+    default: '{}'
 
 outputs:
   step_data:
@@ -17,5 +17,5 @@ runs:
   steps:
     - name: Set step output
       id: set-step-output
-      run: echo "step_data=$(echo '${{ inputs.steps }}' | jq -c .)" >> $GITHUB_OUTPUT
+      run: echo "step_data=$(jq -c . <<< '${{ inputs.steps }}' )" >> $GITHUB_OUTPUT
       shell: bash
