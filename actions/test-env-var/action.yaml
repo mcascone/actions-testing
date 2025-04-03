@@ -1,0 +1,20 @@
+name: test-env-var
+description: A test action to check if the env var is available from the calling step
+
+# inputs:
+#   steps:
+#     description: The stringified steps context data
+#     default: '{}'
+
+# outputs:
+#   step_data:
+#     description: The steps context data
+#     value: ${{ steps.set-step-output.outputs.step_data }}
+
+runs:
+  using: composite
+  steps:
+    - name: echo env var
+      shell: bash
+      run: |
+        echo "MY_ENV_VAR is $MY_ENV_VAR"

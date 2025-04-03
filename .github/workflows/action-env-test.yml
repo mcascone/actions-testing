@@ -1,0 +1,20 @@
+name: action-env-test
+
+on: push
+
+jobs:
+  set-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up environment
+        run: |
+          echo "Setting up environment..."
+          echo "MY_ENV_VAR=Hello World" >> $GITHUB_ENV
+      
+      - name: Use environment variable
+        run: |
+          echo "Using environment variable..."
+          echo "MY_ENV_VAR is $MY_ENV_VAR"
+
+      - name: use env var in action
+        uses: actions/test-env-var@main
