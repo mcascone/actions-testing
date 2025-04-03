@@ -1,0 +1,21 @@
+name: action-env-test
+
+# This workflow proves that env vars are available in called Actions without passing as inputs.
+
+on: 
+  workflow_call:
+    # inputs:
+    #   MY_ENV_VAR:
+    #     type: string
+    #     description: The environment variable to be used in the action
+    #     required: false
+    #     default: Jabberwocky3
+
+jobs:
+  follower:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print incoming env var
+        run: |
+          echo "Using job environment variable in follower job:"
+          echo "MY_ENV_VAR is $MY_ENV_VAR"        # MY_ENV_VAR is <nothing>

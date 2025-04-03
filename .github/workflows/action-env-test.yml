@@ -1,6 +1,7 @@
 name: action-env-test
 
 # This workflow proves that env vars are available in called Actions without passing as inputs.
+# And also proves they are NOT passed to called Workflows.
 
 on: push
 
@@ -49,3 +50,9 @@ jobs:
       
       - name: use job env var in action
         uses: ./actions/test-env-var                # in the Action, MY_ENV_VAR is Jabberwocky2
+
+  call-new-wf:
+    needs: new-env
+    uses: ./.github/workflows/action-env-test-follower.yml
+    # with:
+    #   MY_ENV_VAR: Jabberwocky3
