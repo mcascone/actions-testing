@@ -17,4 +17,4 @@ jobs:
           echo "MY_ENV_VAR is $MY_ENV_VAR"
 
       - name: use env var in action
-        uses: ./actions/test-env-var@main
+        uses: ./actions/test-env-var
