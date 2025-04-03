@@ -1,6 +1,11 @@
 name: action-env-test
 
+# This workflow proves that env vars are available in called Actions without passing as inputs.
+
 on: push
+
+env:
+  MY_ENV_VAR: Jabberwocky!
 
 jobs:
   set-env:
@@ -8,15 +13,39 @@ jobs:
     steps:
       - id: checkout
         uses: actions/checkout@v4
+
+      - name: print job env var
+        run: |
+          echo "Using job environment variable:"
+          echo "MY_ENV_VAR is $MY_ENV_VAR"        # MY_ENV_VAR is Jabberwocky!
+
       - name: Set up environment
         run: |
-          echo "Setting up environment..."
           echo "MY_ENV_VAR=Hello World" >> $GITHUB_ENV
       
       - name: Use environment variable
         run: |
-          echo "Using environment variable..."
-          echo "MY_ENV_VAR is $MY_ENV_VAR"
+          echo "Using previous step environment variable:"
+          echo "MY_ENV_VAR is $MY_ENV_VAR"       # MY_ENV_VAR is Hello World
 
-      - name: use env var in action
+      - name: use step env var in action
         uses: ./actions/test-env-var
+        env:
+          MY_ENV_VAR: 'something else'           # in the Action, MY_ENV_VAR is something else
+
+  new-env:
+    runs-on: ubuntu-latest
+    needs: set-env
+    env:
+      MY_ENV_VAR: Jabberwocky2               
+    steps:
+      - id: checkout
+        uses: actions/checkout@v4
+
+      - name: print job env var
+        run: |
+          echo "Using job environment variable:"
+          echo "MY_ENV_VAR is $MY_ENV_VAR"          # MY_ENV_VAR is Jabberwocky2
+      
+      - name: use job env var in action
+        uses: ./actions/test-env-var                # in the Action, MY_ENV_VAR is Jabberwocky2

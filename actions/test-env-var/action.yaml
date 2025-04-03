@@ -15,7 +15,6 @@ runs:
   using: composite
   steps:
     - name: echo env var
-      id: echo
       shell: bash
       run: |
-        echo "MY_ENV_VAR is $MY_ENV_VAR"
+        echo "in the Action, MY_ENV_VAR is $MY_ENV_VAR"
