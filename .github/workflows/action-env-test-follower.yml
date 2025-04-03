@@ -1,4 +1,4 @@
-name: action-env-test
+name: action-env-test-follower
 
 # This workflow proves that env vars are available in called Actions without passing as inputs.
 
